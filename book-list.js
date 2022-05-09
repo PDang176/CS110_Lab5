@@ -33,9 +33,36 @@ async function loadBooks() {
         </div>
       `;
 
-      document.getElementById('books').innerHTML = document.getElementById('books').innerHTML + x;
+      document.getElementById("books").innerHTML =
+        document.getElementById("books").innerHTML + x;
     }
   }
 }
 
 loadBooks();
+
+async function setEditModal(isbn) {
+  let response = await fetch(`http://localhost:3000/book/${isbn}`);
+
+  console.log(response.status); // 200
+  console.log(response.statusText); // OK
+  if (response.status === 200) {
+    let data = await response.text();
+    console.log(data);
+    const book = JSON.parse(data);
+
+    const { title, author, publisher, publish_date, numOfPages } = book;
+
+    document.getElementById("isbn").value = isbn;
+    document.getElementById("title").value = title;
+    document.getElementById("author").value = author;
+    document.getElementById("publisher").value = publisher;
+    document.getElementById("publish_date").value = publish_date;
+    document.getElementById("numOfPages").value = numOfPages;
+
+    // Setting up the action url for the book
+    document.getElementById(
+      "editForm"
+    ).action = `http://localhost:3000/book/${isbn}`;
+  }
+}

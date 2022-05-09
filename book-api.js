@@ -11,10 +11,10 @@ let books = [];
 app.use(cors());
 
 // Configuring body parser middleware
-app.use(bodyParser.urlencoded({ extend: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post("/book", (req, res) => {
+app.post('/book', (req, res) => {
   const book = req.body;
 
   // Output the book to the console for debugging
@@ -24,9 +24,26 @@ app.post("/book", (req, res) => {
   res.send("Book is added to the database");
 });
 
-app.get("/books", (req, res) => {
-    res.json(books);
-  });
-  
+app.get('/books', (req, res) => {
+  res.json(books);
+});
+
+app.post('/book/:isbn', (req, res) => {
+  // Reading isbn from the URL
+  const isbn = req.params.isbn;
+  const newBook = req.body;
+
+  // Remove item from the books array
+  for (let i = 0; i < books.length; i++) {
+    let book = books[i];
+
+    if (book.isbn === isbn) {
+      books[i] = newBook;
+    }
+  }
+
+  // Sending 404 when not found something is a good practice
+  res.send("Book is edited");
+});
 
 app.listen(port, () => console.log("Hello World! App listening on port 3000"));
