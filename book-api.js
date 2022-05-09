@@ -24,8 +24,9 @@ app.post("/book", (req, res) => {
   res.send("Book is added to the database");
 });
 
-app.listen(port, () => console.log("Hello World! App listening on port 3000"));
-
 app.get("/books", (req, res) => {
-  res.json(books);
-});
+    res.json(books);
+  });
+  
+
+app.listen(port, () => console.log("Hello World! App listening on port 3000"));
