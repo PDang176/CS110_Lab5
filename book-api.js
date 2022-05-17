@@ -11,7 +11,7 @@ let books = [];
 app.use(cors());
 
 // Configuring body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false   }));
 app.use(bodyParser.json());
 
 app.post('/book', (req, res) => {
@@ -19,9 +19,14 @@ app.post('/book', (req, res) => {
 
   // Output the book to the console for debugging
   console.log(book);
-  books.push(book);
+  if(books.find(b => b.isbn == book.isbn)){
+    res.send("Book already exists in the database");
+  }
+  else{
+    books.push(book);
+    res.send("Book is added to the database");
+  }
 
-  res.send('Book is added to the database');
 });
 
 app.get('/book/:isbn', (req, res) => {
@@ -49,11 +54,12 @@ app.post('/book/:isbn', (req, res) => {
 
     if (book.isbn === isbn) {
       books[i] = newBook;
+      res.send("Book is edited");
     }
   }
 
   // Sending 404 when not found something is a good practice
-  res.send("Book is edited");
+  res.send("Error 404: Book not found");
 });
 
 app.listen(port, () => console.log("Hello World! App listening on port 3000"));
