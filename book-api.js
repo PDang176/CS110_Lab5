@@ -21,7 +21,12 @@ app.post('/book', (req, res) => {
   console.log(book);
   books.push(book);
 
-  res.send("Book is added to the database");
+  res.send('Book is added to the database');
+});
+
+app.get('/book/:isbn', (req, res) => {
+  const book = books.find(book => book.isbn === req.params.isbn);
+  res.send(book);
 });
 
 app.get('/books', (req, res) => {
