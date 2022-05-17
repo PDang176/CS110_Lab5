@@ -33,6 +33,11 @@ app.get('/books', (req, res) => {
   res.json(books);
 });
 
+app.delete('/book/:isbn', (req, res) => {
+  books = books.filter(book => book.isbn !== req.params.isbn);
+  res.send("Book is deleted");
+})
+
 app.post('/book/:isbn', (req, res) => {
   // Reading isbn from the URL
   const isbn = req.params.isbn;

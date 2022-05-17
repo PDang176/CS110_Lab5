@@ -71,16 +71,10 @@ async function setEditModal(isbn) {
 }
 
 async function deleteBook(isbn) {
-  let response = await fetch("http://localhost:3000/books");
+  let response = await fetch(`http://localhost:3000/book/${isbn}`, {
+    method: "DELETE"
+  });
 
   console.log(response.status); // 200
   console.log(response.statusText); // OK
-
-  if (response.status === 200) {
-    let data = await response.text();
-    console.log(data);
-    const books = JSON.parse(data);
-
-    const book = books.find(book => book.isbn === req.params.isbn);
-  }
 }
